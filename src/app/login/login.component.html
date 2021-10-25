@@ -10,10 +10,22 @@
           ngModel
           #email="ngModel"
           required
+          minlength="3"
+          maxlength="20"
+          email
+          pattern="[a-z]+"
           placeholder="Email"
         />
         <mat-error *ngIf="email.errors?.required">
           This email is mandatory
+        </mat-error>
+        <mat-error *ngIf="email.errors?.minlength">
+          Your email must have a minimum of
+          {{ email.errors?.minlength.requiredLength }} chars, but it only has
+          {{ email.errors?.minlength.actualLength }}.
+        </mat-error>
+        <mat-error *ngIf="email.errors?.email">
+          This is not a valid email.
         </mat-error>
       </mat-form-field>
       <mat-form-field>

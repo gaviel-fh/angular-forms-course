@@ -17,8 +17,11 @@
           minlength="3"
           maxlength="20"
           email
+          [ngModelOptions]="{ updateOn: 'blur' }"
+          (ngModelChange)="onEmailChange($event)"
           placeholder="Email"
         />
+        <!-- "{ updateOn: 'blur' }" -> change event gets triggerd, when new component is focused. Other optins are: change, submit -->
         <mat-error *ngIf="email.errors?.required">
           This email is mandatory
         </mat-error>

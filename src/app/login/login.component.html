@@ -11,7 +11,7 @@
           matInput
           type="email"
           name="email"
-          ngModel
+          [ngModel]="initialValues.email"
           #email="ngModel"
           required
           minlength="3"
@@ -41,7 +41,7 @@
           placeholder="Password"
           name="password"
           [ngModelOptions]="{ name: 'paswd' }"
-          ngModel
+          [(ngModel)]="initialValues.password"
           #password="ngModel"
           required
         />

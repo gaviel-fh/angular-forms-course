@@ -5,16 +5,23 @@ import { Observable } from "rxjs";
 import { filter } from "rxjs/operators";
 import { courseTitleValidator } from "../../validators/course-title.validator";
 
+interface CourseCategory {
+  code: string;
+  description: string;
+}
 @Component({
   selector: "create-course-step-1",
   templateUrl: "./create-course-step-1.component.html",
   styleUrls: ["./create-course-step-1.component.scss"],
 })
 export class CreateCourseStep1Component implements OnInit {
+  public courseCatagories$: Observable<CourseCategory[]>;
+
   constructor(
     private fb: FormBuilder,
     private coursesService: CoursesService
   ) {}
+
   form = this.fb.group({
     title: [
       "",
@@ -31,9 +38,12 @@ export class CreateCourseStep1Component implements OnInit {
     releaseDateAt: [new Date(), Validators.required],
     downloadsAllowed: [false, Validators.requiredTrue],
     longDescription: ["", [Validators.required, Validators.minLength(3)]],
+    courseCategory: ["BEGINNER", Validators.required],
   });
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.courseCatagories$ = this.coursesService.findCourseCategories();
+  }
 
   get courseTitle() {
     return this.form.controls["title"];

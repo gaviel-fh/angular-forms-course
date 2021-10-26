@@ -15,6 +15,16 @@
   </mat-form-field>
 
   <mat-form-field>
+    <mat-select placeholder="Select category" formControlName="courseCategory">
+      <ng-container *ngFor="let courseCategory of courseCatagories$ | async">
+        <mat-option [value]="courseCategory.code">{{
+          courseCategory.description
+        }}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
     <input
       matInput
       [matDatepicker]="releaseDatePicker"

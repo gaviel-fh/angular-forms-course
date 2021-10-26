@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { createPasswordStrengthValidator } from "../validators/password-strength.validator";
 
 @Component({
@@ -8,25 +13,43 @@ import { createPasswordStrengthValidator } from "../validators/password-strength
   styleUrls: ["./login-reactive.component.css"],
 })
 export class LoginReactiveComponent implements OnInit {
-  public email = new FormControl("", {
-    validators: [Validators.required, Validators.email],
-    updateOn: "blur",
-  });
+  // public email = new FormControl("", {
+  //   validators: [Validators.required, Validators.email],
+  //   updateOn: "blur",
+  // });
 
-  public password = new FormControl("", {
-    validators: [
-      Validators.required,
-      Validators.minLength(8),
-      createPasswordStrengthValidator(),
+  // public password = new FormControl("", {
+  //   validators: [
+  //     Validators.required,
+  //     Validators.minLength(8),
+  //     createPasswordStrengthValidator(),
+  //   ],
+  // });
+
+  // public form: FormGroup = new FormGroup({
+  //   email: this.email,
+  //   password: this.password,
+  // });
+
+  constructor(private fb: FormBuilder) {}
+
+  public form = this.fb.group({
+    email: [
+      "",
+      {
+        validators: [Validators.required, Validators.email],
+        updateOn: "blur",
+      },
+    ],
+    password: [
+      "",
+      [
+        Validators.required,
+        Validators.minLength(8),
+        createPasswordStrengthValidator(),
+      ],
     ],
   });
-
-  public form: FormGroup = new FormGroup({
-    email: this.email,
-    password: this.password,
-  });
-
-  constructor() {}
 
   ngOnInit() {}
 }

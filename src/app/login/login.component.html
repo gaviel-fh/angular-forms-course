@@ -21,7 +21,7 @@
           (ngModelChange)="onEmailChange($event)"
           placeholder="Email"
         />
-        <!-- "{ updateOn: 'blur' }" -> change event gets triggerd, when new component is focused. Other optins are: change, submit -->
+        <!-- "{ updateOn: 'blur' }" -> change event gets triggered, when new component is focused. Other options are: change, submit -->
         <mat-error *ngIf="email.errors?.required">
           This email is mandatory
         </mat-error>
@@ -42,9 +42,16 @@
           name="password"
           [ngModelOptions]="{ name: 'paswd' }"
           [(ngModel)]="initialValues.password"
+          passwordStrength
           #password="ngModel"
           required
         />
+        <mat-error *ngIf="password.errors?.passwordStrength">
+          Your password must have lower case, upper case and numeric characters.
+        </mat-error>
+        <mat-error *ngIf="password.errors?.required">
+          This password is mandatory
+        </mat-error>
       </mat-form-field>
 
       <button

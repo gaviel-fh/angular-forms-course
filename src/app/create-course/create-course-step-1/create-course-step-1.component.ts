@@ -28,6 +28,9 @@ export class CreateCourseStep1Component implements OnInit {
         updateOn: "blur",
       },
     ],
+    releaseDateAt: [new Date(), Validators.required],
+    downloadsAllowed: [false, Validators.requiredTrue],
+    longDescription: ["", [Validators.required, Validators.minLength(3)]],
   });
 
   ngOnInit() {}

@@ -13,4 +13,36 @@
       >Title already exists</mat-error
     >
   </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      [matDatepicker]="releaseDatePicker"
+      placeholder="Release date"
+      formControlName="releaseDateAt"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="releaseDatePicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #releaseDatePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-checkbox color="primary" formControlName="downloadsAllowed"
+    >Download allowed</mat-checkbox
+  >
+
+  <mat-form-field appearance="outline">
+    <textarea
+      matInput
+      placeholder="Description"
+      formControlName="longDescription"
+    >
+    </textarea>
+  </mat-form-field>
+</div>
+
+<div class="form-val">
+  {{ form.value | json }}
+  <p>Form is valid: {{ form.valid }}</p>
 </div>

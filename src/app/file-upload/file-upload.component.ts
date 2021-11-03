@@ -18,4 +18,5 @@ import { noop, of } from "rxjs";
 export class FileUploadComponent {
   @Input()
   public requiredFileType: string;
+  public fileName: string = "";
 }

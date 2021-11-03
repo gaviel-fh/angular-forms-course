@@ -19,4 +19,13 @@ export class FileUploadComponent {
   @Input()
   public requiredFileType: string;
   public fileName: string = "";
+
+  onFileSelected(files: File[]) {
+    const file = files[0];
+
+    if (file) {
+      this.fileName = file.name;
+      console.log(this.fileName);
+    }
+  }
 }

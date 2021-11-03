@@ -8,7 +8,7 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from "@angular/forms";
-import { noop, of } from "rxjs";
+import { from, noop, of } from "rxjs";
 
 @Component({
   selector: "file-upload",
@@ -19,13 +19,27 @@ export class FileUploadComponent {
   @Input()
   public requiredFileType: string;
   public fileName: string = "";
+  public fileUploadError: boolean = false;
+
+  constructor(private http: HttpClient) {}
 
   onFileSelected(files: File[]) {
     const file = files[0];
 
     if (file) {
       this.fileName = file.name;
-      console.log(this.fileName);
+      const formData = new FormData();
+      formData.append("thumbnail", file);
+      this.fileUploadError = false;
+      this.http
+        .post("/api/thumbnail-upload", formData)
+        .pipe(
+          catchError((error) => {
+            this.fileUploadError = true;
+            return of(error);
+          })
+        )
+        .subscribe();
     }
   }
 }

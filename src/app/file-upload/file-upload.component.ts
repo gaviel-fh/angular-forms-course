@@ -11,6 +11,7 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ValidationErrors,
   Validator,
 } from "@angular/forms";
 import { from, noop, of } from "rxjs";
@@ -25,9 +26,14 @@ import { from, noop, of } from "rxjs";
       multi: true,
       useExisting: FileUploadComponent,
     },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: FileUploadComponent,
+    },
   ],
 })
-export class FileUploadComponent implements ControlValueAccessor {
+export class FileUploadComponent implements ControlValueAccessor, Validator {
   @Input()
   public requiredFileType: string;
   public fileName: string = "";
@@ -36,6 +42,8 @@ export class FileUploadComponent implements ControlValueAccessor {
   private onChange: Function = (fileName: string) => {};
   private onTouched: Function = () => {};
   public disabled: boolean = false;
+  private fileUploadSuccess = false;
+  private onValidatorChange = () => {};
 
   constructor(private http: HttpClient) {}
 
@@ -68,6 +76,8 @@ export class FileUploadComponent implements ControlValueAccessor {
             );
           } else if (event.type == HttpEventType.Response) {
             this.onChange(this.fileName);
+            this.fileUploadSuccess = true;
+            this.onValidatorChange();
           }
         });
     }
@@ -92,5 +102,25 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
+  }
+
+  registerOnValidatorChange(onValidatorChange: () => void) {
+    this.onValidatorChange = onValidatorChange;
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if (this.fileUploadSuccess) {
+      return null;
+    }
+
+    let errors: any = {
+      requiredFileType: this.requiredFileType,
+    };
+
+    if (this.fileUploadError) {
+      errors.uploadFailed = true;
+    }
+
+    return errors;
   }
 }

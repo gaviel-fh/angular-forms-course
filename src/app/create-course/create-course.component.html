@@ -2,7 +2,7 @@
   <h2 class="title">Create New Course</h2>
   <mat-horizontal-stepper
     class="mat-elevation-z5"
-    [linear]="false"
+    [linear]="true"
     labelPosition="bottom"
   >
     <mat-step
@@ -34,7 +34,12 @@
       <create-course-step-3 #step3></create-course-step-3>
       <div class="stepper-buttons">
         <button mat-raised-button matStepperPrevious>Back</button>
-        <button mat-raised-button color="primary" [disabled]="step3.form.valid">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!step3.form.valid || step3.lessons.length == 0"
+          (click)="submit(step1.form.value, step2.form.value, step3.form.value)"
+        >
           Create Course
         </button>
       </div>
